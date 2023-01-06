@@ -3,6 +3,10 @@ INCDIR = include
 OBJDIR = obj
 SRCDIR = src
 
+PREFIX?=/mingw64
+LIBDIR=$(PREFIX)/lib
+INCLUDEDIR=$(PREFIX)/include
+
 TARGET = wdsp.dll
 
 CC = gcc
@@ -83,12 +87,18 @@ $(BINDIR)/$(TARGET): $(OBJECTS)
 	@mkdir -p '$(@D)'
 	@$(LINK) -shared $(OBJECTS) $(LFLAGS) $(LIBS) -o $@
 	@echo "Linking complete!"
+	cp $(INCDIR)/wdsp.h $(BINDIR)/
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	@mkdir -p '$(@D)'
 	@$(COMPILE) -c $< -o $@
 	@echo "Compiled "$<" successfully!"
 
+install:
+	cp $(BINDIR)/$(TARGET) $(LIBDIR)
+	cp $(BINDIR)/wdsp.h $(INCLUDEDIR)
+
 clean:
 	-rm -rf $(OBJDIR)
 	-rm -rf $(BINDIR)
+

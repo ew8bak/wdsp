@@ -3,6 +3,8 @@ all:
 	$(MAKE) -f Makefile.win
 clean:
 	$(MAKE) -f Makefile.win clean
+install:
+	$(MAKE) -f Makefile.win install
 else
 
 UNAME_S := $(shell uname -s)
