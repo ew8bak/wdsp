@@ -42,6 +42,7 @@ void *malloc0 (int size)
 	return p;
 }
 
+#if !defined(linux) && !defined(__APPLE__)
 // Exported calls
 
 PORT void
@@ -58,6 +59,7 @@ DestroyCriticalSection (LPCRITICAL_SECTION cs_ptr)
 	free ((char *)cs_ptr);
 }
 
+#endif
 
 /********************************************************************************************************
 *																										*
@@ -264,7 +266,7 @@ void __cdecl CalccPrintSamples (void *pargs)
 {
 	int i;
 	double env_tx, env_rx;
-	int channel = (int)(uintptr_t)pargs;
+	int channel = (int)pargs;
 	CALCC a = txa[channel].calcc.p;
 	FILE* file = fopen("samples.txt", "w");
 	fprintf (file, "\n");
@@ -283,7 +285,7 @@ void __cdecl CalccPrintSamples (void *pargs)
 
 void doCalccPrintSamples(int channel)
 {	// no sample buffering - use in single cal mode
-	_beginthread(CalccPrintSamples, 0, (void *)(uintptr_t)channel);
+	_beginthread(CalccPrintSamples, 0, (void *)channel);
 }
 
 void print_anb_parms (const char* filename, ANB a)
@@ -299,6 +301,8 @@ void print_anb_parms (const char* filename, ANB a)
 	fflush (file);
 	fclose (file);
 }
+
+#if !defined(linux) && !defined(__APPLE__)
 
 // Audacity:  Import Raw Data, Signed 32-bit PCM, Little-endian, Mono/Stereo per mode selection, 48K rate
 
@@ -450,3 +454,4 @@ void WriteScaledAudio (
 		_beginthread (WriteScaledAudioFile, 0, (void *)dstruct);
 	}
 }
+#endif

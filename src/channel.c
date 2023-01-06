@@ -30,7 +30,12 @@ struct _ch ch[MAX_CHANNELS];
 
 void start_thread (int channel)
 {
-	HANDLE handle = (HANDLE) _beginthread(wdspmain, 0, (void *)(uintptr_t)channel);
+#if defined(linux) || defined(__APPLE__)
+	HANDLE handle = (HANDLE) _beginthread(wdspmain, 0, (void *)channel);
+#else
+	HANDLE handle = (HANDLE) _beginthread(main, 0, (void *)channel);
+#endif
+
 	//SetThreadPriority(handle, THREAD_PRIORITY_HIGHEST);
 }
 
@@ -97,7 +102,9 @@ void OpenChannel (int channel, int in_size, int dsp_size, int input_samplerate, 
 		InterlockedBitTestAndReset (&ch[channel].iob.pc->exec_bypass, 0);
 		InterlockedBitTestAndSet (&ch[channel].exchange, 0);
 	}
-	_MM_SET_FLUSH_ZERO_MODE (_MM_FLUSH_ZERO_ON);
+#if !defined(linux) && !defined(__APPLE__)
+        _MM_SET_FLUSH_ZERO_MODE (_MM_FLUSH_ZERO_ON);
+#endif
 }
 
 void pre_main_destroy (int channel)
@@ -127,7 +134,7 @@ void CloseChannel (int channel)
 
 void flushChannel (void* p)
 {
-	int channel = (int)(uintptr_t)p;
+	int channel = (int)p;
 	EnterCriticalSection (&ch[channel].csDSP);
 	EnterCriticalSection (&ch[channel].csEXCH);
 	flush_iobuffs (channel);

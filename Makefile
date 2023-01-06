@@ -11,26 +11,26 @@ UNAME_S := $(shell uname -s)
 
 all:
 ifeq ($(UNAME_S), Darwin)
-	$(MAKE) -f Makefile.mac
+	$(MAKE) -f Makefile.other
 endif
 ifeq ($(UNAME_S), Linux)
-	$(MAKE) -f Makefile.linux
+	$(MAKE) -f Makefile.other
 endif
 
 clean:
 ifeq ($(UNAME_S), Darwin)
-	$(MAKE) -f Makefile.mac clean
+	$(MAKE) -f Makefile.other clean
 endif
 ifeq ($(UNAME_S), Linux)
-	$(MAKE) -f Makefile.linux clean
+	$(MAKE) -f Makefile.other clean
 endif
 
 install:
 ifeq ($(UNAME_S), Darwin)
-	$(MAKE) -f Makefile.mac install
+	$(MAKE) -f Makefile.other install
 endif
 ifeq ($(UNAME_S), Linux)
-	$(MAKE) -f Makefile.linux install
+	$(MAKE) -f Makefile.other install
 endif
 
 endif

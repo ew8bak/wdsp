@@ -477,8 +477,7 @@ void fexchange0 (int channel, double* in, double* out, int* error)
 			a->r1_inidx = 0;
 
 		EnterCriticalSection (&a->r2_ControlSection);
-		if (a->r2_havesamps >= a->out_size)
-			doit = 1;
+		if (a->r2_havesamps >= a->out_size) doit = 1;
 		if ((a->r2_havesamps -= a->out_size) < 0) a->r2_havesamps = 0;
 		LeaveCriticalSection (&a->r2_ControlSection);
 		if (a->bfo) WaitForSingleObject (a->Sem_OutReady, INFINITE);
@@ -489,7 +488,7 @@ void fexchange0 (int channel, double* in, double* out, int* error)
 				if (!_InterlockedAnd (&a->slew.downflag, 1))
 				{
 					InterlockedBitTestAndReset (&ch[channel].exchange, 0);
-					_beginthread (flushChannel, 0, (void *)(uintptr_t)channel);
+					_beginthread (flushChannel, 0, (void *)channel);
 				}
 			}
 			else
@@ -548,7 +547,7 @@ void fexchange2 (int channel, INREAL *Iin, INREAL *Qin, OUTREAL *Iout, OUTREAL *
 				if (!_InterlockedAnd (&a->slew.downflag, 1))
 				{
 					InterlockedBitTestAndReset (&ch[channel].exchange, 0);
-					_beginthread (flushChannel, 0, (void *)(uintptr_t)channel);
+					_beginthread (flushChannel, 0, (void *)channel);
 				}
 			}
 			else

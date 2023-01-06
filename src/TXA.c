@@ -2,7 +2,7 @@
 
 This file is part of a program that implements a Software-Defined Radio.
 
-Copyright (C) 2013, 2014, 2016, 2017, 2021 Warren Pratt, NR0V
+Copyright (C) 2013, 2014, 2016, 2017 Warren Pratt, NR0V
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -115,7 +115,7 @@ void create_txa (int channel)
 	txa[channel].eqp.p = create_eqp (
 		0,											// run - OFF by default
 		ch[channel].dsp_size,						// size
-		max(2048, ch[channel].dsp_size),			// number of filter coefficients
+		2048,										// number of filter coefficients
 		0,											// minimum phase flag
 		txa[channel].midbuff,						// pointer to input buffer
 		txa[channel].midbuff,						// pointer to output buffer
@@ -146,7 +146,7 @@ void create_txa (int channel)
 		0,											// run
 		1,											// position
 		ch[channel].dsp_size,						// size
-		max(2048, ch[channel].dsp_size),			// number of filter coefficients
+		2048,										// number of filter coefficients
 		0,											// minimum phase flag
 		txa[channel].midbuff,						// input buffer
 		txa[channel].midbuff,						// output buffer,
@@ -199,7 +199,7 @@ void create_txa (int channel)
 	double default_F[5] = {200.0, 1000.0, 2000.0, 3000.0, 4000.0};
 	double default_G[5] = {0.0, 5.0, 10.0, 10.0, 5.0};
 	double default_E[5] = {7.0, 7.0, 7.0, 7.0, 7.0};
-	txa[channel].cfcomp.p = create_cfcomp(
+	txa[channel].cfcomp.p = create_cfcomp (
 		0,											// run
 		0,											// position
 		0,											// post-equalizer run
@@ -217,8 +217,7 @@ void create_txa (int channel)
 		default_F,									// frequency array
 		default_G,									// compression array
 		default_E,									// eq array
-		0.25,										// metering time constant
-		0.50);										// display time constant
+		0.25);										// metering time constant
 	}
 
 	txa[channel].cfcmeter.p = create_meter (	
@@ -240,7 +239,7 @@ void create_txa (int channel)
 		1,											// always runs
 		0,											// position
 		ch[channel].dsp_size,						// size
-		max(2048, ch[channel].dsp_size),			// number of coefficients
+		2048,										// number of coefficients
 		0,											// flag for minimum phase
 		txa[channel].midbuff,						// pointer to input buffer
 		txa[channel].midbuff,						// pointer to output buffer 
@@ -261,7 +260,7 @@ void create_txa (int channel)
 		0,											// ONLY RUNS WHEN COMPRESSOR IS USED
 		0,											// position
 		ch[channel].dsp_size,						// size
-		max(2048, ch[channel].dsp_size),			// number of coefficients
+		2048,										// number of coefficients
 		0,											// flag for minimum phase
 		txa[channel].midbuff,						// pointer to input buffer
 		txa[channel].midbuff,						// pointer to output buffer 
@@ -283,7 +282,7 @@ void create_txa (int channel)
 		0,											// ONLY RUNS WHEN COMPRESSOR IS USED
 		0,											// position
 		ch[channel].dsp_size,						// size
-		max(2048, ch[channel].dsp_size),			// number of coefficients
+		2048,										// number of coefficients
 		0,											// flag for minimum phase
 		txa[channel].midbuff,						// pointer to input buffer
 		txa[channel].midbuff,						// pointer to output buffer 
@@ -355,7 +354,7 @@ void create_txa (int channel)
 		0.10,										// ctcss level
 		100.0,										// ctcss frequency
 		1,											// run bandpass filter
-		max(2048, ch[channel].dsp_size),			// number coefficients for bandpass filter
+		2048,										// number coefficients for bandpass filter
 		0);											// minimum phase flag
 	
 	txa[channel].gen1.p = create_gen (
@@ -434,7 +433,7 @@ void create_txa (int channel)
 	txa[channel].cfir.p = create_cfir(
 		0,											// run
 		ch[channel].dsp_size,						// size
-		max(2048, ch[channel].dsp_size),			// number of filter coefficients
+		2048,										// number of filter coefficients
 		0,											// minimum phase flag
 		txa[channel].midbuff,						// input buffer
 		txa[channel].midbuff,						// output buffer
@@ -444,7 +443,7 @@ void create_txa (int channel)
 		640,										// CIC interpolation factor
 		5,											// CIC integrator-comb pairs
 		20000.0,									// cutoff frequency
-		2,											// brick-wall windowed rolloff
+		0,											// fourth-power rolloff
 		0.0,										// raised-cosine transition width
 		0);											// window type
 
@@ -911,10 +910,9 @@ void TXASetNC (int channel, int nc)
 {
 	int oldstate = SetChannelState (channel, 0, 1);
 	SetTXABandpassNC			(channel, nc);
-	SetTXAFMEmphNC				(channel, nc);
-	SetTXAEQNC					(channel, nc);
+	// SetTXAFMEmphNC				(channel, nc);
+	// SetTXAEQNC					(channel, nc);
 	SetTXAFMNC					(channel, nc);
-	SetTXACFIRNC				(channel, nc);
 	SetChannelState (channel, oldstate, 0);
 }
 

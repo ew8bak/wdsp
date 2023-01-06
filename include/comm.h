@@ -24,13 +24,30 @@ warren@wpratt.com
 
 */
 
+#if defined(linux) || defined(__APPLE__)
+#include <stdlib.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <string.h>
+#include "linux_port.h"
+#ifdef ANDROID
+#include <android/log.h>
+#define APPNAME "WDSP"
+#define LOGD(LOG_TAG, ...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#define LOGI(LOG_TAG, ...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG,__VA_ARGS__)
+#define LOGV(LOG_TAG, ...) __android_log_print(ANDROID_LOG_VERBOSE, LOG_TAG, __VA_ARGS__)
+#define LOGW(LOG_TAG, ...) __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)
+#define LOGE(LOG_TAG, ...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#endif
+#else
 #include <Windows.h>
+#include <stdint.h>
 #include <process.h>
 #include <intrin.h>
-#include <math.h>
-#include <stdint.h>
-#include <time.h>
 #include <avrt.h>
+#endif
+#include <math.h>
+#include <time.h>
 #include "fftw3.h"
 
 #include "amd.h"
