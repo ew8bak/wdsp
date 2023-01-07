@@ -1,0 +1,106 @@
+BINDIR = bin
+INCDIR = include
+OBJDIR = obj
+SRCDIR = src
+
+PREFIX?=/usr/local
+LIBDIR=$(PREFIX)/lib
+INCLUDEDIR=$(PREFIX)/include
+
+TARGET = libwdsp.dylib
+
+CC = gcc
+LINK = gcc
+
+CFLAGS = -g -fPIC -O3 -D _GNU_SOURCE 
+LFLAGS =
+
+LIBS = `pkg-config --libs fftw3`
+
+INCLUDES = -I$(INCDIR)
+
+COMPILE = $(CC) $(CFLAGS) $(INCLUDES)
+
+SOURCES += $(SRCDIR)/amd.c
+SOURCES += $(SRCDIR)/ammod.c
+SOURCES += $(SRCDIR)/amsq.c
+SOURCES += $(SRCDIR)/analyzer.c
+SOURCES += $(SRCDIR)/anf.c
+SOURCES += $(SRCDIR)/anr.c
+SOURCES += $(SRCDIR)/bandpass.c
+SOURCES += $(SRCDIR)/calcc.c
+SOURCES += $(SRCDIR)/calculus.c
+SOURCES += $(SRCDIR)/cblock.c
+SOURCES += $(SRCDIR)/cfcomp.c
+SOURCES += $(SRCDIR)/cfir.c
+SOURCES += $(SRCDIR)/channel.c
+SOURCES += $(SRCDIR)/comm.c
+SOURCES += $(SRCDIR)/compress.c
+SOURCES += $(SRCDIR)/delay.c
+SOURCES += $(SRCDIR)/dexp.c
+SOURCES += $(SRCDIR)/div.c
+SOURCES += $(SRCDIR)/eer.c
+SOURCES += $(SRCDIR)/emnr.c
+SOURCES += $(SRCDIR)/emph.c
+SOURCES += $(SRCDIR)/eq.c
+SOURCES += $(SRCDIR)/fcurve.c
+SOURCES += $(SRCDIR)/fir.c
+SOURCES += $(SRCDIR)/firmin.c
+SOURCES += $(SRCDIR)/fmd.c
+SOURCES += $(SRCDIR)/fmmod.c
+SOURCES += $(SRCDIR)/fmsq.c
+SOURCES += $(SRCDIR)/gain.c
+SOURCES += $(SRCDIR)/gen.c
+SOURCES += $(SRCDIR)/icfir.c
+SOURCES += $(SRCDIR)/iir.c
+SOURCES += $(SRCDIR)/iobuffs.c
+SOURCES += $(SRCDIR)/iqc.c
+SOURCES += $(SRCDIR)/linux_port.c
+SOURCES += $(SRCDIR)/lmath.c
+SOURCES += $(SRCDIR)/main.c
+SOURCES += $(SRCDIR)/meter.c
+SOURCES += $(SRCDIR)/meterlog10.c
+SOURCES += $(SRCDIR)/nbp.c
+SOURCES += $(SRCDIR)/nob.c
+SOURCES += $(SRCDIR)/nobII.c
+SOURCES += $(SRCDIR)/osctrl.c
+SOURCES += $(SRCDIR)/patchpanel.c
+SOURCES += $(SRCDIR)/resample.c
+SOURCES += $(SRCDIR)/rmatch.c
+SOURCES += $(SRCDIR)/RXA.c
+SOURCES += $(SRCDIR)/sender.c
+SOURCES += $(SRCDIR)/shift.c
+SOURCES += $(SRCDIR)/siphon.c
+SOURCES += $(SRCDIR)/slew.c
+SOURCES += $(SRCDIR)/snb.c
+SOURCES += $(SRCDIR)/syncbuffs.c
+SOURCES += $(SRCDIR)/TXA.c
+SOURCES += $(SRCDIR)/utilities.c
+SOURCES += $(SRCDIR)/varsamp.c
+SOURCES += $(SRCDIR)/version.c
+SOURCES += $(SRCDIR)/wcpAGC.c
+SOURCES += $(SRCDIR)/wisdom.c
+
+OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+
+$(BINDIR)/$(TARGET): $(OBJECTS)
+	@mkdir -p '$(@D)'
+	@$(LINK) -shared $(OBJECTS) $(LFLAGS) $(LIBS) -o $@
+	@echo "Linking complete!"
+	cp $(INCDIR)/wdsp.h $(BINDIR)/
+
+$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	@mkdir -p '$(@D)'
+	@$(COMPILE) -c $< -o $@
+	@echo "Compiled "$<" successfully!"
+
+install:
+	cp $(BINDIR)/wdsp.h $(INCLUDEDIR)
+	/usr/bin/install_name_tool -id $(LIBDIR)/$(TARGET) $(BINDIR)/$(TARGET)
+	cp $(BINDIR)/$(TARGET) $(LIBDIR)
+
+clean:
+	-rm -rf $(OBJDIR)
+	-rm -rf $(BINDIR)
+
+ 
