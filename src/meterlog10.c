@@ -543,18 +543,19 @@ __declspec (align (16)) static const double mtable[2048] = {
 9.9717948093762132e-001,  9.9753234752636577e-001,  9.9788512782911110e-001,  9.9823782188804633e-001,  
 9.9859042974532852e-001,  9.9894295144308476e-001,  9.9929538702341059e-001,  9.9964773652837102e-001};
 
+#if defined(linux) || defined(__APPLE__)
+__forceinline double mlog10 (double val)
+ {
+ 	unsigned _int64* pin = (unsigned _int64*)(&val);
+ 	unsigned _int64    N = *pin;
+#else
 inline double mlog10 (double val)
 {
-#ifdef _WIN32
 	uint64_t* pin = (uint64_t*)(&val);
-	uint64_t    N = *pin;
-#else
-__forceinline double mlog10 (double val)
-{
-	unsigned _int64* pin = (unsigned _int64*)(&val);
-	unsigned _int64    N = *pin;
+ 	uint64_t    N = *pin;
 #endif
-    int e = (int)(((N >> 52) & 2047) - 1023);
-    int m = (int)((N >> (52 - mbits)) & mmask);
+     int e = (int)(((N >> 52) & 2047) - 1023);
+     int m = (int)((N >> (52 - mbits)) & mmask);
 	return mconv * (e + mtable[m]);
-}
+ }
+ 

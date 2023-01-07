@@ -606,17 +606,16 @@ DWORD WINAPI spectra (void *pargs)
 		LeaveCriticalSection (&(a->EliminateSection[ss]));
 
 		EnterCriticalSection (&a->StitchSection);
-#ifdef __APPLE__
+#if defined(linux) || defined(__APPLE__)
                 a->stitch_flag |= 1L << ss;
-				if (a->stitch_flag == ((1L << a->num_stitch) - 1))
-#endif
-#ifdef __linux__
-                a->stitch_flag |= 1i64 << ss;
-				if (a->stitch_flag == ((1i64 << a->num_stitch) - 1))
-#endif
-#ifdef _WIN32
+#else
                 a->stitch_flag |= ((uint64_t)1) << ss;
-				if (a->stitch_flag == ((((uint64_t)1) << a->num_stitch) - 1))
+#endif
+
+#if defined(linux) || defined(__APPLE__)
+                if (a->stitch_flag == ((1L << a->num_stitch) - 1))
+#else
+                if (a->stitch_flag == ((((uint64_t)1) << a->num_stitch) - 1))
 #endif
 
 		{
@@ -693,19 +692,17 @@ DWORD WINAPI Cspectra (void *pargs)
 		LeaveCriticalSection (&(a->EliminateSection[ss]));
 
 		EnterCriticalSection (&a->StitchSection);
-#ifdef __APPLE__
+#if defined(linux) || defined(__APPLE__)
                 a->stitch_flag |= 1L << ss;
-				if (a->stitch_flag == ((1L << a->num_stitch) - 1))
-#endif
-#ifdef __linux__
-                a->stitch_flag |= 1i64 << ss;
-				if (a->stitch_flag == ((1i64 << a->num_stitch) - 1))
-#endif
-#ifdef _WIN32
-				a->stitch_flag |= ((uint64_t)1) << ss;
-				if (a->stitch_flag == ((((uint64_t)1) << a->num_stitch) - 1))
+#else
+                a->stitch_flag |= ((uint64_t)1) << ss;
 #endif
 
+#if defined(linux) || defined(__APPLE__)
+                if (a->stitch_flag == ((1L << a->num_stitch) - 1))
+#else
+                if (a->stitch_flag == ((((uint64_t)1) << a->num_stitch) - 1))
+#endif
 		{
 			a->stitch_flag = 0;
 			LeaveCriticalSection(&a->StitchSection);

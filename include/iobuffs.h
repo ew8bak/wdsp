@@ -27,7 +27,11 @@ warren@wpratt.com
 #ifndef _iobuffs_h
 #define _iobuffs_h
 #include "comm.h"
+#if defined(linux) || defined(__APPLE__)
+typedef struct _iob
+#else
 typedef struct _iobf
+#endif
 {
 	int   channel;
 	int   in_size;								// input number of complex samples in a fexchange call

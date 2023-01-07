@@ -27,10 +27,7 @@ warren@wpratt.com
 #define _CRT_SECURE_NO_WARNINGS
 #include "comm.h"
 
-#if defined(linux) || defined(__APPLE__)
-static char status[128];
-#endif
-#ifdef _WIN32
+#if defined(linux) || defined(__APPLE__) || defined(_WINDOWS_)
 static char status[128];
 #endif
 
@@ -131,13 +128,7 @@ void WDSPwisdom (char* directory)
 	}
 }
 
-#if defined(linux) || defined(__APPLE__)
-char *wisdom_get_status() {
-	return status;
-}
-#endif
-
-#ifdef _WIN32
+#if defined(linux) || defined(__APPLE__) || defined(_WINDOWS_)
 PORT
 char *wisdom_get_status() {
 	return status;

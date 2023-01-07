@@ -41,10 +41,10 @@ warren@wpratt.com
 #endif
 #else
 #include <Windows.h>
-#include <stdint.h>
 #include <process.h>
 #include <intrin.h>
 #include <avrt.h>
+#include <stdint.h>
 #endif
 #include <math.h>
 #include <time.h>
