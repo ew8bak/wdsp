@@ -39,15 +39,19 @@ warren@wpratt.com
 #define LOGW(LOG_TAG, ...) __android_log_print(ANDROID_LOG_WARN, LOG_TAG, __VA_ARGS__)
 #define LOGE(LOG_TAG, ...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
 #endif
-#else
+#endif
+
+#ifdef _WIN32
 #include <Windows.h>
 #include <process.h>
 #include <intrin.h>
-#include <avrt.h>
-#include <stdint.h>
 #endif
 #include <math.h>
+#include <stdint.h>
 #include <time.h>
+#ifdef _WIN32
+#include <avrt.h>
+#endif
 #include "fftw3.h"
 
 #include "amd.h"
@@ -99,6 +103,7 @@ warren@wpratt.com
 #include "siphon.h"
 #include "slew.h"
 #include "snb.h"
+#include "ssql.h"
 #include "syncbuffs.h"
 #include "TXA.h"
 #include "utilities.h"

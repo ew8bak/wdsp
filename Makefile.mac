@@ -12,7 +12,7 @@ TARGET = libwdsp.dylib
 CC = gcc
 LINK = gcc
 
-CFLAGS = -g -fPIC -O3 -D _GNU_SOURCE 
+CFLAGS = -g -fPIC -O3 -D _GNU_SOURCE -pthread
 LFLAGS =
 
 LIBS = `pkg-config --libs fftw3`
@@ -73,6 +73,7 @@ SOURCES += $(SRCDIR)/shift.c
 SOURCES += $(SRCDIR)/siphon.c
 SOURCES += $(SRCDIR)/slew.c
 SOURCES += $(SRCDIR)/snb.c
+SOURCES += $(SRCDIR)/ssql.c 
 SOURCES += $(SRCDIR)/syncbuffs.c
 SOURCES += $(SRCDIR)/TXA.c
 SOURCES += $(SRCDIR)/utilities.c

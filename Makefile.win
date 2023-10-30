@@ -36,6 +36,7 @@ SOURCES += $(SRCDIR)/cblock.c
 SOURCES += $(SRCDIR)/cfcomp.c
 SOURCES += $(SRCDIR)/cfir.c
 SOURCES += $(SRCDIR)/channel.c
+SOURCES += $(SRCDIR)/comm.c
 SOURCES += $(SRCDIR)/compress.c
 SOURCES += $(SRCDIR)/delay.c
 SOURCES += $(SRCDIR)/dexp.c
@@ -73,6 +74,7 @@ SOURCES += $(SRCDIR)/shift.c
 SOURCES += $(SRCDIR)/siphon.c
 SOURCES += $(SRCDIR)/slew.c
 SOURCES += $(SRCDIR)/snb.c
+SOURCES += $(SRCDIR)/ssql.c
 SOURCES += $(SRCDIR)/syncbuffs.c
 SOURCES += $(SRCDIR)/TXA.c
 SOURCES += $(SRCDIR)/utilities.c
@@ -101,4 +103,3 @@ install:
 clean:
 	-rm -rf $(OBJDIR)
 	-rm -rf $(BINDIR)
-
