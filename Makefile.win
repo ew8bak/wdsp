@@ -14,7 +14,7 @@ LINK = gcc
 
 WIN_LIBS = -lavrt
 
-CFLAGS = -mwindows -g -fPIC -O3
+CFLAGS = -mwindows -g -fPIC -O3 -pthread
 LFLAGS = -Wall
 
 LIBS = -lm -lpthread -lfftw3 $(WIN_LIBS)
