@@ -62,8 +62,8 @@ enum txaMeterType {
 //
 // Take care of some "Windows specialities"
 //
-#define __stdcall 
-#define LPCRITICAL_SECTION void*
+//#define __stdcall 
+//#define LPCRITICAL_SECTION void*
 
 //
 // To make the interface simpler, use "void *" for
@@ -851,11 +851,11 @@ extern void SetRXASSQLTauUnMute (int channel, double tau_unmute);
 // Interfaces from utilities.c
 //
 
-extern void *malloc0 (int size);
-extern  void *NewCriticalSection();
-extern  void DestroyCriticalSection (LPCRITICAL_SECTION cs_ptr);
-extern void analyze_bandpass_filter (int N, double f_low, double f_high, double samplerate, int wintype, int rtype, double scale);
-extern void print_buffer_parameters (const char* filename, int channel);
+//extern void *malloc0 (int size);
+//extern  void *NewCriticalSection();
+//extern  void DestroyCriticalSection (LPCRITICAL_SECTION cs_ptr);
+//extern void analyze_bandpass_filter (int N, double f_low, double f_high, double samplerate, int wintype, int rtype, double scale);
+//extern void print_buffer_parameters (const char* filename, int channel);
 
 //
 // Interfaces from varsamp.c
